@@ -25,6 +25,7 @@ export const WeatherCard = (props: WeatherCardProps) => {
   return (
     <AnimatePresence>
       <motion.div className="weatherCard" style={props.style}>
+        <video src="/videos/backgroundVideo.mp4" className="backgroundVideo" autoPlay muted loop />
         <motion.div className="infoColumn">
           <PrimaryParagraph>{props.weatherData.place}</PrimaryParagraph>
           <SecondaryParagraph>{props.weatherData.region}</SecondaryParagraph>

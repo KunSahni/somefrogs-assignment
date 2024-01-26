@@ -6,7 +6,7 @@ export const PrimaryTitle = styled.h1`
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
-  font-family: 'Arca', Helvetica;
+  font-family: monospace, Helvetica;
   text-align: left;
   text-overflow: ellipsis;
   color: var(--color-textTitle);
@@ -20,7 +20,7 @@ export const SecondaryTitle = styled.h2`
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
-  font-family: 'Arca', Helvetica;
+  font-family: monospace, Helvetica;
   text-align: left;
   text-overflow: ellipsis;
   color: var(--color-textTitle);
@@ -33,7 +33,7 @@ export const PrimaryParagraph = styled.p`
   line-height: 1.75rem;
   font-style: normal;
   font-stretch: normal;
-  font-family: 'Arca', Helvetica;
+  font-family: monospace, Helvetica;
   text-align: left;
   text-overflow: ellipsis;
   color: var(--color-textPrimary);
@@ -45,7 +45,7 @@ export const SecondaryParagraph = styled.p`
   line-height: 1.5rem;
   font-style: normal;
   font-stretch: normal;
-  font-family: 'Arca', Helvetica;
+  font-family: monospace, Helvetica;
   text-align: left;
   text-overflow: ellipsis;
   color: var(--color-textPrimary);
@@ -58,7 +58,7 @@ export const ErrorMessage = styled.span`
   font-style: normal;
   font-stretch: normal;
   font-weight: 500;
-  font-family: 'Arca', Helvetica;
+  font-family: monospace, Helvetica;
   text-align: left;
   text-overflow: ellipsis;
   color: var(--color-alert);

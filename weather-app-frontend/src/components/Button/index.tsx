@@ -7,7 +7,7 @@ export const PrimaryButton = styled.button`
   font-stretch: normal;
   text-transform: none;
   font-weight: 600;
-  font-family: 'Arca', Helvetica;
+  font-family: monospace, Helvetica;
   text-align: center;
   background: var(--color-backgroundCtaPrimary);
   color: var(--color-textCtaPrimary);
@@ -33,7 +33,7 @@ export const SecondaryButton = styled.button`
   font-stretch: normal;
   text-transform: none;
   font-weight: 500;
-  font-family: 'Arca', Helvetica;
+  font-family: monospace, Helvetica;
   text-align: center;
   background: var(--color-backgroundCtaSecondary);
   color: var(--color-textCtaSecondary);

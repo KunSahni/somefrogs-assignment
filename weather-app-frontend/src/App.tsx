@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react'
-import { PrimaryButton, SecondaryButton } from './components/Button'
+import { IconButton, PrimaryButton, SecondaryButton } from './components/Button'
 import { InputField } from './components/InputField'
-import { PrimaryTitle } from './components/Text'
+import { PrimaryTitle, SecondaryTitle } from './components/Text'
 import { WeatherCard } from './components/WeatherCard'
 import { WeatherScrollLayout } from './components/WeatherScrollLayout'
 import { WeatherData } from './types'
@@ -170,7 +170,7 @@ function App() {
     }
   ]
   return (
-    <>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <PrimaryTitle style={{ width: 'fit-content' }}>Weather App</PrimaryTitle>
       <InputField
         label={''}
@@ -183,7 +183,7 @@ function App() {
         required={false}
       />
       <WeatherScrollLayout weatherData={mockData} />
-    </>
+    </div>
   )
 }
 

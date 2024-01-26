@@ -1,0 +1,32 @@
+.weatherCard {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid black;
+  width: 24vw;
+  height: 24vh;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  justify-content: space-between;
+
+  .infoColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100%;
+  }
+  .weatherColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    height: 100%;
+
+    &Wind {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: flex-end;
+      margin-top: auto;
+      gap: 0.5rem;
+    }
+  }
+}

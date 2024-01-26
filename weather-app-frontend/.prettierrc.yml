@@ -1,0 +1,6 @@
+trailingComma: 'none'
+quoteProps: 'as-needed'
+tabWidth: 2
+printWidth: 120
+semi: false
+singleQuote: true

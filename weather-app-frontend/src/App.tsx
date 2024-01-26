@@ -1,174 +1,46 @@
-import { ChangeEvent } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { IconButton, PrimaryButton, SecondaryButton } from './components/Button'
 import { InputField } from './components/InputField'
 import { PrimaryTitle, SecondaryTitle } from './components/Text'
 import { WeatherCard } from './components/WeatherCard'
 import { WeatherScrollLayout } from './components/WeatherScrollLayout'
 import { WeatherData } from './types'
+import { getCities, getWeatherData } from './utils/requests'
 
 function App() {
-  const mockData: WeatherData[] = [
-    {
-      place: 'Helsinki',
-      region: 'Uusimaa',
-      conditions: {
-        temperature: 5.01,
-        windSpeed: 10,
-        windDirection: 345,
-        timestamp: '2021-04-12T12:00:00Z'
-      }
-    },
-    {
-      place: 'Espoo',
-      region: 'Uusimaa',
-      conditions: {
-        temperature: 5.01,
-        windSpeed: 10,
-        windDirection: 345,
-        timestamp: '2021-04-12T12:00:00Z'
-      }
-    },
-    {
-      place: 'Vantaa',
-      region: 'Uusimaa',
-      conditions: {
-        temperature: 5.01,
-        windSpeed: 10,
-        windDirection: 345,
-        timestamp: '2021-04-12T12:00:00Z'
-      }
-    },
-    {
-      place: 'Tampere',
-      region: 'Pirkanmaa',
-      conditions: {
-        temperature: 5.01,
-        windSpeed: 10,
-        windDirection: 345,
-        timestamp: '2021-04-12T12:00:00Z'
-      }
-    },
-    {
-      place: 'Turku',
-      region: 'Varsinais-Suomi',
-      conditions: {
-        temperature: 5.01,
-        windSpeed: 10,
-        windDirection: 345,
-        timestamp: '2021-04-12T12:00:00Z'
-      }
-    },
-    {
-      place: 'Oulu',
-      region: 'Pohjois-Pohjanmaa',
-      conditions: {
-        temperature: 5.01,
-        windSpeed: 10,
-        windDirection: 345,
-        timestamp: '2021-04-12T12:00:00Z'
-      }
-    },
-    {
-      place: 'Lahti',
-      region: 'Päijät-Häme',
-      conditions: {
-        temperature: 5.01,
-        windSpeed: 10,
-        windDirection: 345,
-        timestamp: '2021-04-12T12:00:00Z'
-      }
-    },
-    {
-      place: 'Kuopio',
-      region: 'Pohjois-Savo',
-      conditions: {
-        temperature: 5.01,
-        windSpeed: 10,
-        windDirection: 345,
-        timestamp: '2021-04-12T12:00:00Z'
-      }
-    },
-    {
-      place: 'Jyväskylä',
-      region: 'Keski-Suomi',
-      conditions: {
-        temperature: 5.01,
-        windSpeed: 10,
-        windDirection: 345,
-        timestamp: '2021-04-12T12:00:00Z'
-      }
-    },
-    {
-      place: 'Pori',
-      region: 'Satakunta',
-      conditions: {
-        temperature: 5.01,
-        windSpeed: 10,
-        windDirection: 345,
-        timestamp: '2021-05-12T12:00:00Z'
-      }
-    },
-    {
-      place: 'Lappeenranta',
-      region: 'Etelä-Karjala',
-      conditions: {
-        temperature: 5.01,
-        windSpeed: 10,
-        windDirection: 345,
-        timestamp: new Date().toISOString()
-      }
-    },
-    {
-      place: 'Rovaniemi',
-      region: 'Lappi',
-      conditions: {
-        temperature: 5.01,
-        windSpeed: 10,
-        windDirection: 345,
-        timestamp: new Date().toISOString()
-      }
-    },
-    {
-      place: 'Vaasa',
-      region: 'Pohjanmaa',
-      conditions: {
-        temperature: 5.01,
-        windSpeed: 10,
-        windDirection: 345,
-        timestamp: new Date().toISOString()
-      }
-    },
-    {
-      place: 'Kotka',
-      region: 'Kymenlaakso',
-      conditions: {
-        temperature: 5.01,
-        windSpeed: 10,
-        windDirection: 345,
-        timestamp: new Date().toISOString()
-      }
-    },
-    {
-      place: 'Joensuu',
-      region: 'Pohjois-Karjala',
-      conditions: {
-        temperature: 5.01,
-        windSpeed: 10,
-        windDirection: 345,
-        timestamp: new Date().toISOString()
-      }
-    },
-    {
-      place: 'Hämeenlinna',
-      region: 'Kanta-Häme',
-      conditions: {
-        temperature: 5.01,
-        windSpeed: 10,
-        windDirection: 345,
-        timestamp: new Date().toISOString()
-      }
+  const [cities, setCities] = useState<string[]>([])
+  const [weatherData, setWeatherData] = useState<WeatherData[]>([])
+
+  useEffect(() => {
+    const asyncFunc = async () => {
+      const response = await getCities('', 10, 0)
+      setCities(response.data.cities)
     }
-  ]
+    asyncFunc()
+  }, [])
+
+  useEffect(() => {
+    const asyncFunc = async () => {
+      cities.forEach(async (city) => {
+        const response = await getWeatherData(city)
+        setWeatherData((prev) => [
+          ...prev,
+          {
+            place: city,
+            region: city,
+            conditions: {
+              temperature: response.data.temperature,
+              windSpeed: response.data.windSpeed,
+              windDirection: response.data.windDirection,
+              timestamp: response.data.timestamp
+            }
+          }
+        ])
+      })
+    }
+    asyncFunc()
+  }, [cities])
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <PrimaryTitle style={{ width: 'fit-content' }}>Weather App</PrimaryTitle>
@@ -182,7 +54,7 @@ function App() {
         }}
         required={false}
       />
-      <WeatherScrollLayout weatherData={mockData} />
+      <WeatherScrollLayout weatherData={weatherData} />
     </div>
   )
 }

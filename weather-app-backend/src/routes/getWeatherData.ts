@@ -5,7 +5,7 @@ import { XMLParser, XMLBuilder, XMLValidator } from 'fast-xml-parser'
 dotenv.config()
 const OPEN_DATA_QUERY_URL = process.env.OPEN_DATA_QUERY_URL || undefined
 
-export const getWeatherData = async (city: string): Promise<GetWeatherDataResponse> => {
+export const getWeatherData = async (place: string): Promise<GetWeatherDataResponse> => {
   if (!OPEN_DATA_QUERY_URL)
     return {
       status: 500,
@@ -16,7 +16,7 @@ export const getWeatherData = async (city: string): Promise<GetWeatherDataRespon
   const endTime = new Date()
   const startTime = new Date(endTime.getTime() - 30 * 60 * 1000)
   const response = await fetch(
-    `${OPEN_DATA_QUERY_URL}&place=${city}&starttime=${startTime.toISOString()}&endtime=${endTime.toISOString()}`
+    `${OPEN_DATA_QUERY_URL}&place=${place}&starttime=${startTime.toISOString()}&endtime=${endTime.toISOString()}`
   )
   if (response.status !== 200)
     return {

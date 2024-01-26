@@ -24,7 +24,7 @@ app.post('/cities', async (req: Request, res: Response) => {
 })
 
 app.post('/weather', async (req: Request, res: Response) => {
-  const result = await getWeatherData(req.body.city)
+  const result = await getWeatherData(req.body.place)
   res.send(result)
 })
 

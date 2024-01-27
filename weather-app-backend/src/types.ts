@@ -1,32 +1,54 @@
-export interface Response {
-  status: number
-  message: string
-  data?: any | undefined
-}
-
-export interface GetCitiesResponse extends Response {
-  data:
-    | {
-        cities: string[]
-      }
-    | undefined
-}
-
-export interface GetWeatherDataResponse extends Response {
-  data:
-    | {
-        timestamp: string
-        temperature: number
-        windSpeed: number
-        windDirection: number
-      }
-    | undefined
-}
-
-export interface City {
+export interface Place {
   name: string
   lat: number
   lng: number
   region: string
   population: number | undefined
+}
+
+export interface WeatherData {
+  timestamp: string
+  temperature: number | undefined
+  windSpeed: number | undefined
+  windDirection: number | undefined
+}
+
+export interface GetPlacesResponseData {
+  data: {
+    places: {
+      city: string
+      region: string
+    }[]
+  }
+}
+
+export interface GetWeatherDataResponseData {
+  data: WeatherData
+}
+
+export class ValidationError extends Error {
+  errorCode: number
+  constructor(message: string) {
+    super(message)
+    this.name = 'ValidationError'
+    this.errorCode = 400
+  }
+}
+
+export class BadRequestError extends Error {
+  errorCode: number
+  constructor(message: string) {
+    super(message)
+    this.name = 'BadRequestError'
+    this.errorCode = 400
+  }
+}
+
+export class InternalServerError extends Error {
+  errorCode: number
+  constructor(message: string) {
+    super(message)
+    this.name = 'InternalServerError'
+    this.errorCode = 500
+  }
 }

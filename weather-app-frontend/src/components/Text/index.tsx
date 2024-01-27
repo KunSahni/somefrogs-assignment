@@ -12,6 +12,14 @@ export const PrimaryTitle = styled.h1`
   color: var(--color-textTitle);
   padding: 1rem 0;
   margin: 0;
+  @media screen and (max-width: 64rem) {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+  @media screen and (max-width: 32rem) {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
 `
 
 export const SecondaryTitle = styled.h2`
@@ -26,6 +34,14 @@ export const SecondaryTitle = styled.h2`
   color: var(--color-textTitle);
   padding: 1rem 0;
   margin: 0;
+  @media screen and (max-width: 64rem) {
+    font-size: 1.1rem;
+    line-height: 1.5rem;
+  }
+  @media screen and (max-width: 32rem) {
+    font-size: 1rem;
+    line-height: 1.4rem;
+  }
 `
 
 export const PrimaryParagraph = styled.p`
@@ -38,6 +54,14 @@ export const PrimaryParagraph = styled.p`
   text-overflow: ellipsis;
   color: var(--color-textPrimary);
   margin: 0.5rem 0;
+  @media screen and (max-width: 64rem) {
+    font-size: 1.1rem;
+    line-height: 1.5rem;
+  }
+  @media screen and (max-width: 32rem) {
+    font-size: 1rem;
+    line-height: 1.4rem;
+  }
 `
 
 export const SecondaryParagraph = styled.p`
@@ -50,6 +74,14 @@ export const SecondaryParagraph = styled.p`
   text-overflow: ellipsis;
   color: var(--color-textPrimary);
   margin: 0.25rem 0;
+  @media screen and (max-width: 64rem) {
+    font-size: 0.9rem;
+    line-height: 1.4rem;
+  }
+  @media screen and (max-width: 32rem) {
+    font-size: 0.8rem;
+    line-height: 1.3rem;
+  }
 `
 
 export const ErrorMessage = styled.span`

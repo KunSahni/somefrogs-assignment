@@ -55,47 +55,9 @@
   }
 }
 
-input[type='number'],
-input[type='text'],
-input[type='datetime-local'] {
+input[type='text'] {
   font-family: monospace, Helvetica;
   color: var(--color-textPrimary);
-}
-
-input[type='number'] {
-  /* Firefox */
-  -moz-appearance: textfield;
-
-  /* Chrome, Safari, Edge, Opera */
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  &::-webkit-textfield-decoration-container {
-    margin: 0 0.5rem;
-    width: 100%;
-  }
-}
-
-input[type='datetime-local'] {
-  &::-webkit-datetime-edit {
-    margin: 0 0.5rem;
-    width: 100%;
-  }
-
-  &::-webkit-calendar-picker-indicator {
-    background: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath fill-rule="evenodd" clip-rule="evenodd" d="M2 16a.5.5 0 0 0 .5.5h7.069a7.28 7.28 0 0 0 0 2H2a2 2 0 0 1-2-2V3a1 1 0 0 1 1-1h2.25a.5.5 0 0 1 .5.5v2a.75.75 0 0 0 1.5 0V.75a.75.75 0 0 1 1.5 0v1c0 .138.112.25.25.25h4.25a.5.5 0 0 1 .5.5v2a.75.75 0 0 0 1.5 0V.75a.75.75 0 0 1 1.5 0v1c0 .138.112.25.25.25h2.5a1 1 0 0 1 1 1v6.57a7.28 7.28 0 0 0-2 0V7.5A.5.5 0 0 0 16 7H2.5a.5.5 0 0 0-.5.5V16Zm15.5-5a6.5 6.5 0 1 0 6.5 6.5 6.508 6.508 0 0 0-6.5-6.5Zm2 5.751h-1.25V15a.75.75 0 0 0-1.5 0v2.5c0 .414.336.75.75.75h2a.75.75 0 0 0 0-1.5v.001Z"%3E%3C/path%3E%3C/svg%3E')
-      no-repeat;
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    right: 0.5rem;
-  }
-}
-
-input[type='text'] {
   &::-webkit-textfield-decoration-container {
     margin: 0 0.5rem;
     width: 100%;

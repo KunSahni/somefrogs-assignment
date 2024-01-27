@@ -102,9 +102,9 @@ export const getWeatherData = async (place: string): Promise<GetWeatherDataRespo
   return {
     data: {
       timestamp: mostRecentValidTimestamp,
-      temperature: roundToTwoDecimals(mostRecentMapEntry.temperature),
-      windSpeed: roundToTwoDecimals(3.6 * (mostRecentMapEntry.windSpeedMs ?? 0)),
-      windDirection: roundToTwoDecimals(mostRecentMapEntry.windDirection)
+      temperature: roundToTwoDecimals(mostRecentMapEntry.temperature) ?? undefined,
+      windSpeed: roundToTwoDecimals(3.6 * (mostRecentMapEntry.windSpeedMs ?? 0)) ?? undefined,
+      windDirection: roundToTwoDecimals(mostRecentMapEntry.windDirection) ?? undefined
     }
   }
 }

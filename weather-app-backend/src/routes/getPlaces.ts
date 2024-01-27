@@ -43,15 +43,16 @@ export const getPlaces = async (req: {
   const places: Place[] | undefined = await parseCSVFile(path.resolve(__dirname, '../files/fi.csv'))
   if (!places) throw new InternalServerError('Could not read cities from csv file')
   places.sort((a, b) => a.name.localeCompare(b.name, 'fi'))
-  let filteredPlaces: Place[] = []
+  let filteredPlaces: Place[] | undefined = undefined
   if (req.searchTerm)
     filteredPlaces = places.filter((city) => city.name.toLowerCase().includes(req.searchTerm!.toLowerCase()))
-  else filteredPlaces = places
   return {
     data: {
-      places: places.slice(req.pageSize * req.currentPage, req.pageSize * (req.currentPage + 1)).map((city) => {
-        return { city: city.name, region: city.region }
-      })
+      places: (filteredPlaces ?? places)
+        .slice(req.pageSize * req.currentPage, req.pageSize * (req.currentPage + 1))
+        .map((city) => {
+          return { city: city.name, region: city.region }
+        })
     }
   }
 }

@@ -1,3 +1,8 @@
+export interface Place {
+  city: string
+  region: string
+}
+
 export interface WeatherConditions {
   timestamp: string
   temperature: number
@@ -5,12 +10,6 @@ export interface WeatherConditions {
   windSpeed: number
 }
 
-export interface WeatherData {
-  place: string
-  region: string
-  conditions: WeatherConditions
-}
-
-export interface WeatherDataExtended extends WeatherData {
-  forecast: WeatherConditions[]
+export interface WeatherData extends Place {
+  conditions?: WeatherConditions
 }

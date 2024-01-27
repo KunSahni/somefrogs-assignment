@@ -1,15 +1,25 @@
 import dotenv from 'dotenv'
 import { XMLParser, XMLValidator } from 'fast-xml-parser'
 import { BadRequestError, GetWeatherDataResponseData, InternalServerError } from '../types'
+import { createCache, memoryStore } from 'cache-manager'
 
 dotenv.config()
 const OPEN_DATA_QUERY_URL = process.env.OPEN_DATA_QUERY_URL || undefined
+
+var cacheMem = createCache(memoryStore(), {
+  max: 100,
+  ttl: 10 * 60 * 1000 /*milliseconds*/
+})
 
 const roundToTwoDecimals = (num: number | undefined): number | undefined => {
   return Math.round((num ?? 0) * 100) / 100
 }
 
 export const getWeatherData = async (place: string): Promise<GetWeatherDataResponseData> => {
+  const cachedResponse = await cacheMem.get('weather' + '_' + place.toLowerCase())
+  if (cachedResponse) return cachedResponse as GetWeatherDataResponseData
+  console.log('cache miss')
+
   if (!OPEN_DATA_QUERY_URL) throw new InternalServerError('Failed to read from .env file')
 
   const endTime = new Date()
@@ -99,7 +109,7 @@ export const getWeatherData = async (place: string): Promise<GetWeatherDataRespo
   if (!mostRecentMapEntry)
     throw new InternalServerError('Unable to retrieve recent weather data, please try again later')
 
-  return {
+  const result: GetWeatherDataResponseData = {
     data: {
       timestamp: mostRecentValidTimestamp,
       temperature: roundToTwoDecimals(mostRecentMapEntry.temperature) ?? undefined,
@@ -107,4 +117,7 @@ export const getWeatherData = async (place: string): Promise<GetWeatherDataRespo
       windDirection: roundToTwoDecimals(mostRecentMapEntry.windDirection) ?? undefined
     }
   }
+  await cacheMem.set('weather' + '_' + place.toLowerCase(), result)
+
+  return result
 }

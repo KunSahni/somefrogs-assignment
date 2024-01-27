@@ -1,7 +1,13 @@
+import { createCache, memoryStore } from 'cache-manager'
 import { parse } from 'csv-parse'
 import fs from 'fs'
 import path from 'path'
 import { GetPlacesResponseData, InternalServerError, Place } from '../types'
+
+var cacheMem = createCache(memoryStore(), {
+  max: 100,
+  ttl: 10 * 60 * 1000 /*milliseconds*/
+})
 
 const parseCSVFile = (csvFilePath: string): Promise<Place[] | undefined> => {
   return new Promise((resolve, reject) => {
@@ -40,13 +46,18 @@ export const getPlaces = async (req: {
   pageSize: number
   currentPage: number
 }): Promise<GetPlacesResponseData> => {
+  const cachedResponse = await cacheMem.get(
+    'places' + '_' + req.searchTerm?.toLowerCase() + '_' + req.pageSize + '_' + req.currentPage
+  )
+  if (cachedResponse) return cachedResponse as GetPlacesResponseData
   const places: Place[] | undefined = await parseCSVFile(path.resolve(__dirname, '../files/fi.csv'))
   if (!places) throw new InternalServerError('Could not read cities from csv file')
   places.sort((a, b) => a.name.localeCompare(b.name, 'fi'))
   let filteredPlaces: Place[] | undefined = undefined
   if (req.searchTerm)
     filteredPlaces = places.filter((city) => city.name.toLowerCase().includes(req.searchTerm!.toLowerCase()))
-  return {
+
+  const result: GetPlacesResponseData = {
     data: {
       places: (filteredPlaces ?? places)
         .slice(req.pageSize * req.currentPage, req.pageSize * (req.currentPage + 1))
@@ -55,4 +66,9 @@ export const getPlaces = async (req: {
         })
     }
   }
+  await cacheMem.set(
+    'places' + '_' + req.searchTerm?.toLowerCase() + '_' + req.pageSize + '_' + req.currentPage,
+    result
+  )
+  return result
 }

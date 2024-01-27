@@ -15,7 +15,7 @@ export const getWeatherData = async (place: string): Promise<GetWeatherDataRespo
   const endTime = new Date()
   const startTime = new Date(endTime.getTime() - 30 * 60 * 1000)
   const response = await fetch(
-    `${OPEN_DATA_QUERY_URL}&place=${place}&timestep=10&starttime=${startTime.toISOString()}&endtime=${endTime.toISOString()}`
+    `${OPEN_DATA_QUERY_URL}&place=${place}&timestep=5&starttime=${startTime.toISOString()}&endtime=${endTime.toISOString()}`
   )
   if (response.status !== 200) throw new InternalServerError('Failed to fetch data from api')
 

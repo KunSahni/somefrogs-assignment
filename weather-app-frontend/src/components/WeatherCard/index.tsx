@@ -1,17 +1,21 @@
-import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
-import { WeatherData } from '../../types'
+import { AnimatePresence, motion, useInView } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { Place, WeatherConditions } from '../../types'
+import { getWeatherData } from '../../utils/requests'
 import { PrimaryParagraph, SecondaryParagraph } from '../Text'
 import './style.scss'
 
 interface WeatherCardProps {
-  weatherData: WeatherData
+  place: Place
   testId?: string
 }
 
 export const WeatherCard = (props: WeatherCardProps) => {
+  const ref = useRef(null)
   const [timestampMessage, setTimestampMessage] = useState<string>('')
   const [windExplanationMessage, setWindExplanationMessage] = useState<string>('')
+  const [weatherConditions, setWeatherConditions] = useState<WeatherConditions | undefined>(undefined)
+  const isInView = useInView(ref)
 
   const getWindConditionsString = (windSpeed: number | undefined, windDirection: number | undefined) => {
     if (windSpeed === undefined && windDirection === undefined) return 'N/A'
@@ -20,55 +24,69 @@ export const WeatherCard = (props: WeatherCardProps) => {
     return windSpeed + ' km/h, ' + windDirection + '°'
   }
 
+  const fetchUpdatedWeatherConditions = async () => {
+    const updatedConditions = await getWeatherData(props.place.city)
+    setWeatherConditions({
+      temperature: updatedConditions?.temperature,
+      windSpeed: updatedConditions?.windSpeed,
+      windDirection: updatedConditions?.windDirection,
+      timestamp: updatedConditions?.timestamp
+    } as WeatherConditions)
+  }
+
   useEffect(() => {
-    if (!props.weatherData.conditions?.timestamp) return
-    const timestamp = new Date(props.weatherData.conditions.timestamp)
+    if (!weatherConditions?.timestamp) return
+    const timestamp = new Date(weatherConditions.timestamp)
     setTimestampMessage(
       'Updated at ' +
         timestamp.getHours().toString().padStart(2, '0') +
         ':' +
         timestamp.getMinutes().toString().padStart(2, '0')
     )
-  }, [props.weatherData.conditions?.timestamp])
+  }, [weatherConditions?.timestamp])
 
   useEffect(() => {
-    if (props.weatherData.conditions?.windSpeed === undefined || props.weatherData.conditions?.windSpeed === null) {
+    if (weatherConditions?.windSpeed === undefined || weatherConditions?.windSpeed === null) {
       setWindExplanationMessage('')
       return
     }
-    if (props.weatherData.conditions.windSpeed <= 1) setWindExplanationMessage('Calm')
-    else if (props.weatherData.conditions.windSpeed < 6) setWindExplanationMessage('Light air')
-    else if (props.weatherData.conditions.windSpeed < 12) setWindExplanationMessage('Light breeze')
-    else if (props.weatherData.conditions.windSpeed < 20) setWindExplanationMessage('Gentle breeze')
-    else if (props.weatherData.conditions.windSpeed < 30) setWindExplanationMessage('Moderate breeze')
-    else if (props.weatherData.conditions.windSpeed < 40) setWindExplanationMessage('Fresh breeze')
-    else if (props.weatherData.conditions.windSpeed < 50) setWindExplanationMessage('Strong breeze')
-    else if (props.weatherData.conditions.windSpeed < 62) setWindExplanationMessage('Near gale')
-    else if (props.weatherData.conditions.windSpeed < 75) setWindExplanationMessage('Gale')
-    else if (props.weatherData.conditions.windSpeed < 89) setWindExplanationMessage('Strong gale')
-    else if (props.weatherData.conditions.windSpeed < 103) setWindExplanationMessage('Storm')
-    else if (props.weatherData.conditions.windSpeed < 118) setWindExplanationMessage('Violent storm')
+    if (weatherConditions.windSpeed <= 1) setWindExplanationMessage('Calm')
+    else if (weatherConditions.windSpeed < 6) setWindExplanationMessage('Light air')
+    else if (weatherConditions.windSpeed < 12) setWindExplanationMessage('Light breeze')
+    else if (weatherConditions.windSpeed < 20) setWindExplanationMessage('Gentle breeze')
+    else if (weatherConditions.windSpeed < 30) setWindExplanationMessage('Moderate breeze')
+    else if (weatherConditions.windSpeed < 40) setWindExplanationMessage('Fresh breeze')
+    else if (weatherConditions.windSpeed < 50) setWindExplanationMessage('Strong breeze')
+    else if (weatherConditions.windSpeed < 62) setWindExplanationMessage('Near gale')
+    else if (weatherConditions.windSpeed < 75) setWindExplanationMessage('Gale')
+    else if (weatherConditions.windSpeed < 89) setWindExplanationMessage('Strong gale')
+    else if (weatherConditions.windSpeed < 103) setWindExplanationMessage('Storm')
+    else if (weatherConditions.windSpeed < 118) setWindExplanationMessage('Violent storm')
     else setWindExplanationMessage('Hurricane')
-  }, [props.weatherData.conditions?.windSpeed])
+  }, [weatherConditions?.windSpeed])
+
+  useEffect(() => {
+    if (!isInView) return
+    fetchUpdatedWeatherConditions()
+  }, [isInView])
 
   return (
     <AnimatePresence>
-      <motion.div className="weatherCard" data-test-id={props.testId}>
+      <motion.div className="weatherCard" data-test-id={props.testId} ref={ref}>
         <video src="/videos/backgroundVideo.mp4" className="backgroundVideo" autoPlay muted loop />
         <motion.div className="infoColumn">
-          <PrimaryParagraph style={{ fontWeight: '600' }}>{props.weatherData.city}</PrimaryParagraph>
-          <SecondaryParagraph>{props.weatherData.region}</SecondaryParagraph>
+          <PrimaryParagraph style={{ fontWeight: '600' }}>{props.place.city}</PrimaryParagraph>
+          <SecondaryParagraph>{props.place.region}</SecondaryParagraph>
           <SecondaryParagraph style={{ marginTop: 'auto' }}>{timestampMessage}</SecondaryParagraph>
         </motion.div>
         <motion.div className="weatherColumn">
-          <PrimaryParagraph>{props.weatherData.conditions?.temperature + '°C' ?? 'N/A'}</PrimaryParagraph>
+          <PrimaryParagraph>
+            {weatherConditions?.temperature ? weatherConditions?.temperature + '°C' : 'N/A'}
+          </PrimaryParagraph>
           <div className="weatherColumnWind">
             <SecondaryParagraph>{windExplanationMessage}</SecondaryParagraph>
             <SecondaryParagraph>
-              {getWindConditionsString(
-                props.weatherData.conditions?.windSpeed,
-                props.weatherData.conditions?.windDirection
-              )}
+              {getWindConditionsString(weatherConditions?.windSpeed, weatherConditions?.windDirection)}
             </SecondaryParagraph>
           </div>
         </motion.div>

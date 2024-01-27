@@ -11,8 +11,42 @@ const getResponseData = async (response: Response): Promise<any> => {
   return data
 }
 
+export const getLocalStorageItem = (key: string) => {
+  const data = localStorage.getItem(key)
+  try {
+    if (!data) return null
+    const dataAsJson = JSON.parse(data)
+    if (dataAsJson.expirationTime) {
+      if (new Date().getTime() > dataAsJson.expirationTime) {
+        sessionStorage.removeItem(key)
+        return null
+      }
+    }
+    return dataAsJson.value
+  } catch (err) {
+    return null
+  }
+}
+
+export const setLocalStorageItem = (key: string, value: any, ttlMs?: number) => {
+  localStorage.setItem(
+    key,
+    JSON.stringify(
+      ttlMs
+        ? {
+            value: value,
+            expirationTime: new Date().getTime() + ttlMs
+          }
+        : { value }
+    )
+  )
+}
+
 export const getWeatherData = async (city: string): Promise<WeatherConditions | undefined> => {
   try {
+    city = city.toLowerCase()
+    const cachedData = getLocalStorageItem('weather_' + city)
+    if (cachedData) return cachedData
     const response = await fetch(`http://localhost:3000/weather`, {
       method: 'POST',
       headers: {
@@ -22,12 +56,17 @@ export const getWeatherData = async (city: string): Promise<WeatherConditions | 
     })
     if (isResponseOk(response)) {
       const data = await getResponseData(response)
-      return {
+      const weatherConditions: WeatherConditions = {
         timestamp: data.timestamp,
-        temperature: data.temperature,
-        windDirection: data.windDirection,
-        windSpeed: data.windSpeed
-      } as WeatherConditions
+        temperature: data.temperature ?? undefined,
+        windDirection: data.windDirection ?? undefined,
+        windSpeed: data.windSpeed ?? undefined
+      }
+      // Cache for 10 minutes from the timestamp of the weather data
+      const expirationTime = new Date(weatherConditions.timestamp).getTime() + 10 * 60 * 1000
+      const ttlMs = expirationTime - new Date().getTime()
+      setLocalStorageItem('weather_' + city, weatherConditions, ttlMs)
+      return weatherConditions
     }
     return undefined
   } catch (error) {
@@ -38,6 +77,9 @@ export const getWeatherData = async (city: string): Promise<WeatherConditions | 
 
 export const getPlaces = async (searchTerm: string, pageSize: number, currentPage: number): Promise<Place[]> => {
   try {
+    searchTerm = searchTerm.toLowerCase()
+    const cachedData = getLocalStorageItem('places_' + searchTerm + '_' + pageSize + '_' + currentPage)
+    if (cachedData) return cachedData
     const response = await fetch(`http://localhost:3000/places`, {
       method: 'POST',
       headers: {
@@ -47,6 +89,7 @@ export const getPlaces = async (searchTerm: string, pageSize: number, currentPag
     })
     if (isResponseOk(response)) {
       const data = await getResponseData(response)
+      setLocalStorageItem('places_' + searchTerm + '_' + pageSize + '_' + currentPage, data.places, 60 * 60 * 1000)
       return data.places as Place[]
     }
     return []

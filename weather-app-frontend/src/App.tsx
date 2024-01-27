@@ -3,13 +3,12 @@ import { useEffect, useState } from 'react'
 import { InputField } from './components/InputField'
 import { PrimaryTitle } from './components/Text'
 import { WeatherCard } from './components/WeatherCard'
-import { Place, WeatherData } from './types'
-import { getPlaces, getWeatherData } from './utils/requests'
+import { Place } from './types'
+import { getPlaces } from './utils/requests'
 import { validateString } from './utils/validators'
 
 function App() {
   const [places, setPlaces] = useState<Place[]>([])
-  const [weatherData, setWeatherData] = useState<WeatherData[]>([])
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [searchTermError, setSearchTermError] = useState<string | undefined>()
   const [currentPage, setCurrentPage] = useState<number>(0)
@@ -23,7 +22,7 @@ function App() {
     asyncFunc()
   }, [searchTerm])
 
-  useEffect(() => {
+  /* useEffect(() => {
     const asyncFunc = async () => {
       setWeatherData([])
       places.forEach(async (place) => {
@@ -44,7 +43,7 @@ function App() {
       })
     }
     asyncFunc()
-  }, [places])
+  }, [places]) */
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -73,8 +72,8 @@ function App() {
           { maxWidth: '32rem', cols: 1, spacing: '1rem', verticalSpacing: '1rem' }
         ]}
       >
-        {weatherData.map((data, index) => (
-          <WeatherCard key={index} weatherData={data} />
+        {places.map((place, index) => (
+          <WeatherCard key={index} place={place} />
         ))}
       </SimpleGrid>
     </div>

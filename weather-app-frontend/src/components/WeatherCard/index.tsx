@@ -7,6 +7,7 @@ import './style.scss'
 
 interface WeatherCardProps {
   place: Place
+  inViewCallback?: () => void
   testId?: string
 }
 
@@ -67,13 +68,13 @@ export const WeatherCard = (props: WeatherCardProps) => {
 
   useEffect(() => {
     if (!isInView) return
+    if (props.inViewCallback) props.inViewCallback()
     fetchUpdatedWeatherConditions()
   }, [isInView])
 
   return (
     <AnimatePresence>
       <motion.div className="weatherCard" data-test-id={props.testId} ref={ref}>
-        <video src="/videos/backgroundVideo.mp4" className="backgroundVideo" autoPlay muted loop />
         <motion.div className="infoColumn">
           <PrimaryParagraph style={{ fontWeight: '600' }}>{props.place.city}</PrimaryParagraph>
           <SecondaryParagraph>{props.place.region}</SecondaryParagraph>

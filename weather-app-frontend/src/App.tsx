@@ -8,42 +8,27 @@ import { getPlaces } from './utils/requests'
 import { validateString } from './utils/validators'
 
 function App() {
+  const pageSize: number = 9
+
   const [places, setPlaces] = useState<Place[]>([])
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [searchTermError, setSearchTermError] = useState<string | undefined>()
   const [currentPage, setCurrentPage] = useState<number>(0)
-  const pageSize: number = 9
+
+  const fetchPlaces = async (
+    searchTerm: string,
+    pageSize: number,
+    currentPage: number,
+    erasePreviousContent: boolean
+  ) => {
+    if (erasePreviousContent) setCurrentPage(0)
+    const updatedPlaces = await getPlaces(searchTerm, pageSize, erasePreviousContent ? 0 : currentPage)
+    setPlaces(erasePreviousContent ? updatedPlaces : [...places, ...updatedPlaces])
+  }
 
   useEffect(() => {
-    const asyncFunc = async () => {
-      const places = await getPlaces(searchTerm, pageSize, currentPage)
-      setPlaces(places)
-    }
-    asyncFunc()
+    fetchPlaces(searchTerm, pageSize, currentPage, true)
   }, [searchTerm])
-
-  /* useEffect(() => {
-    const asyncFunc = async () => {
-      setWeatherData([])
-      places.forEach(async (place) => {
-        const weatherConditions = await getWeatherData(place.city)
-        setWeatherData((prev) => [
-          ...prev,
-          {
-            city: place.city,
-            region: place.region,
-            conditions: {
-              temperature: weatherConditions?.temperature ?? undefined,
-              windSpeed: weatherConditions?.windSpeed ?? undefined,
-              windDirection: weatherConditions?.windDirection ?? undefined,
-              timestamp: weatherConditions?.timestamp
-            }
-          } as WeatherData
-        ])
-      })
-    }
-    asyncFunc()
-  }, [places]) */
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -72,9 +57,20 @@ function App() {
           { maxWidth: '32rem', cols: 1, spacing: '1rem', verticalSpacing: '1rem' }
         ]}
       >
-        {places.map((place, index) => (
-          <WeatherCard key={index} place={place} />
-        ))}
+        {places.map((place, index) => {
+          if (index === places.length - 1)
+            return (
+              <WeatherCard
+                key={index}
+                place={place}
+                inViewCallback={() => {
+                  fetchPlaces(searchTerm, pageSize, currentPage + 1, false)
+                  setCurrentPage((prev) => prev + 1)
+                }}
+              />
+            )
+          return <WeatherCard key={index} place={place} />
+        })}
       </SimpleGrid>
     </div>
   )

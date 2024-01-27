@@ -19,12 +19,16 @@
     border-radius: 0.5rem;
   }
 
-  @media screen and (max-width: 64rem) {
-    height: 20vh;
+  @media (orientation: portrait) {
+    @media screen and (max-width: 64rem) {
+      height: 20vh;
+    }
   }
 
-  @media screen and (max-width: 32rem) {
-    height: 20vh;
+  @media (orientation: landscape) {
+    @media screen and (max-width: 64rem) {
+      height: 30vh;
+    }
   }
 
   .infoColumn {

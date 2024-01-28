@@ -29,7 +29,6 @@ app.post('/places', async (req: Request, res: Response) => {
       data: result.data
     })
   } catch (error: any) {
-    console.log(error)
     if (error instanceof InternalServerError || error instanceof ValidationError || error instanceof BadRequestError)
       res.send({
         status: error.errorCode,
@@ -52,7 +51,6 @@ app.post('/weather', async (req: Request, res: Response) => {
       data: result.data
     })
   } catch (error: any) {
-    console.log(error)
     if (error instanceof InternalServerError || error instanceof ValidationError || error instanceof BadRequestError)
       res.send({
         status: error.errorCode,

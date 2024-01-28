@@ -89,7 +89,7 @@ export const WeatherCard = (props: WeatherCardProps) => {
 
   const getCardStyle = () => {
     if (!weatherConditions) return {}
-    const hour = new Date('2024-01-27T20:55:44.083Z').getHours()
+    const hour = new Date(weatherConditions.timestamp).getHours()
     const direction = weatherConditions.windDirection ?? 0
     let gradient
 

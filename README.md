@@ -111,7 +111,7 @@ The responses are formatted like this:
 ```yaml
 // Success
 {
- "status": 200,
+  "status": 200,
 	"data": {
 		"timestamp": "2024-01-28T11:30:00Z",
 		"temperature": 2.1,

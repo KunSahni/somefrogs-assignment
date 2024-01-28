@@ -20,9 +20,9 @@ The repo contains both frontend and backend, furthermore it contains a docker co
 
 - Make sure to have Docker installed, run `docker -v` to check
 - If docker is not installed please install it from [here](https://docs.docker.com/engine/install/)
-- Run `docker-compose build`
-- You should be able to start the project by running `docker-compose up`
-- If everything went correctly you should now have the HTTP server running on port 3000 and frontent on 4173
+- Run `docker-compose build` from the root folder
+- You should be able to start the project by running `docker-compose up` from the root folder
+- If everything went correctly you should now have the HTTP server running on `localhosto:3000/` and frontent on `localhosto:4173/`
 
 ## API specification
 
@@ -36,7 +36,7 @@ Returns an array of tuples where each tuple contains a city and its region. The 
 -  `currentPage`: number of the current page - number, <strong>required</strong>
 
 Here are some examples on how the request body should look like:
-```json
+```javascript
 // Valid request body
 { 
 	"searchTerm": "Hel",
@@ -66,7 +66,7 @@ Here are some examples on how the request body should look like:
 
 The responses are formatted like this:
 
-```json
+```javascript
 // Success
 {
 	"status": 200,
@@ -94,7 +94,7 @@ Returns the most recent weather conditions for a given place. The parameters are
 -  `place`: name of the city - string, <strong>required</strong>
 
 Here are some examples on how the request body should look like:
-```json
+```javascript
 // Valid request body
 { 
 	"place": "Helsinki"
@@ -108,7 +108,7 @@ Here are some examples on how the request body should look like:
 
 The responses are formatted like this:
 
-```json
+```javascript
 // Success
 {
 	"status": 200,

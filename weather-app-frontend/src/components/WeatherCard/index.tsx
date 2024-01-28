@@ -1,6 +1,6 @@
 import { AnimatePresence, motion, useInView } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
-import { Place, WeatherConditions } from '../../types'
+import { Place, WeatherConditions } from '../../utils/types'
 import { getWeatherData } from '../../utils/requests'
 import { PrimaryParagraph, SecondaryParagraph } from '../Text'
 import './style.scss'

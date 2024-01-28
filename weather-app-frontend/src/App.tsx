@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { InputField } from './components/InputField'
 import { PrimaryTitle } from './components/Text'
 import { WeatherCard } from './components/WeatherCard'
-import { Place } from './types'
+import { Place } from './utils/types'
 import { getPlaces } from './utils/requests'
 import { validateString } from './utils/validators'
 

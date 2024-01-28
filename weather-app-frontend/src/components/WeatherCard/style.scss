@@ -31,17 +31,6 @@
     }
   }
 
-  .backgroundVideo {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    object-fit: cover;
-    border-radius: 0.5rem;
-  }
-
   @media (orientation: portrait) {
     @media screen and (max-width: 84rem) {
       height: 20vh;
@@ -60,6 +49,7 @@
     align-items: flex-start;
     height: 100%;
   }
+
   .weatherColumn {
     display: flex;
     flex-direction: column;

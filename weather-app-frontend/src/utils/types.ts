@@ -9,7 +9,3 @@ export interface WeatherConditions {
   windDirection: number
   windSpeed: number
 }
-
-export interface WeatherData extends Place {
-  conditions?: WeatherConditions
-}

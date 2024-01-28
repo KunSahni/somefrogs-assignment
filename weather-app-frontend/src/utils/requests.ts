@@ -1,4 +1,4 @@
-import { Place, WeatherConditions } from '../types'
+import { Place, WeatherConditions } from './types'
 
 const isResponseOk = (response: Response) => {
   if (response.status === 200) return true

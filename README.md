@@ -35,32 +35,32 @@ Returns an array of tuples where each tuple contains a city and its region. The 
 -  `pageSize`: size of the page (how many places you want the endpoint to return) - number, <strong>required</strong>
 -  `currentPage`: number of the current page - number, <strong>required</strong>
 
-Here are some examples on how the request body should look like:
+Here are some examples of how the request body should look like:
 ```javascript
 // Valid request body
-{ 
-	"searchTerm": "Hel",
-	"pageSize": 10,
-	"currentPage: 0
+{
+  "searchTerm": "Hel",
+  "pageSize": 10,
+  "currentPage: 0
 }
 
 // Valid request body
 { 
-	"pageSize": 10,
-	"currentPage: 0
+  "pageSize": 10,
+  "currentPage: 0
 }
 
 // Invalid request body
 { 
-	"searchTerm": "Hel",
-	"pageSize": "10",
-	"currentPage: "0"
+  "searchTerm": "Hel",
+  "pageSize": "10",
+  "currentPage: "0"
 }
 
 // Invalid request body
 { 
-	"searchTerm": "Hel",
-	"pageSize": 10,
+  "searchTerm": "Hel",
+  "pageSize": 10,
 }
 ```
 
@@ -69,22 +69,21 @@ The responses are formatted like this:
 ```javascript
 // Success
 {
-	"status": 200,
-	"data": {
-		"places": [
-			{
-				"city": "Helsinki",
-				"region": "Uusimaa"
-			},
-      ...
-		]
-	}
+  "status": 200,
+  "data": {
+    "places": [
+      {
+        "city": "Helsinki",
+        "region": "Uusimaa"
+      }, ...
+    ]
+  }
 }
 
 // Failure
 {
-	"status": 400,
-	"message": "Invalid request - currentPage is required. (error: 56780982)"
+  "status": 400,
+  "message": "Invalid request - currentPage is required. (error: 56780982)"
 }
 ```
 
@@ -97,11 +96,11 @@ Here are some examples on how the request body should look like:
 ```javascript
 // Valid request body
 {
- "place": "Helsinki"
+  "place": "Helsinki"
 }
 
 // Invalid request body
-{ 
+{
   "place": "H"
 }
 ```
@@ -112,17 +111,17 @@ The responses are formatted like this:
 // Success
 {
   "status": 200,
-	"data": {
-		"timestamp": "2024-01-28T11:30:00Z",
-		"temperature": 2.1,
-		"windSpeed": 12.96,
-		"windDirection": 241
-	}
+  "data": {
+    "timestamp": "2024-01-28T11:30:00Z",
+    "temperature": 2.1,
+    "windSpeed": 12.96,
+    "windDirection": 241
+  }
 }
 
 // Failure
 {
-	"status": 400,
-	"message": "The place you entered was not found. (error: 56489123)"
+  "status": 400,
+  "message": "The place you entered was not found. (error: 56489123)"
 }
 ```

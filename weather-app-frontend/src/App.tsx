@@ -53,8 +53,8 @@ function App() {
         spacing="2rem"
         verticalSpacing="2rem"
         breakpoints={[
-          { maxWidth: '64rem', cols: 2, spacing: '1.5rem', verticalSpacing: '1.5rem' },
-          { maxWidth: '48rem', cols: 1, spacing: '1rem', verticalSpacing: '1rem' }
+          { maxWidth: '84rem', cols: 2, spacing: '1.5rem', verticalSpacing: '1.5rem' },
+          { maxWidth: '54rem', cols: 1, spacing: '1rem', verticalSpacing: '1rem' }
         ]}
       >
         {places.map((place, index) => {

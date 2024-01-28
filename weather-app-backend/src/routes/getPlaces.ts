@@ -4,7 +4,7 @@ import fs from 'fs'
 import path from 'path'
 import { GetPlacesResponseData, InternalServerError, Place } from '../types'
 
-var cacheMem = createCache(memoryStore(), {
+const cacheMem = createCache(memoryStore(), {
   max: 100,
   ttl: 10 * 60 * 1000 /*milliseconds*/
 })
@@ -50,12 +50,14 @@ export const getPlaces = async (req: {
     'places' + '_' + req.searchTerm?.toLowerCase() + '_' + req.pageSize + '_' + req.currentPage
   )
   if (cachedResponse) return cachedResponse as GetPlacesResponseData
+
   const places: Place[] | undefined = await parseCSVFile(path.resolve(__dirname, '../files/fi.csv'))
-  if (!places) throw new InternalServerError('Could not read cities from csv file')
+  if (!places) throw new InternalServerError('Could not read places from csv file')
   places.sort((a, b) => a.name.localeCompare(b.name, 'fi'))
-  let filteredPlaces: Place[] | undefined = undefined
-  if (req.searchTerm)
-    filteredPlaces = places.filter((city) => city.name.toLowerCase().includes(req.searchTerm!.toLowerCase()))
+
+  let filteredPlaces: Place[] | undefined = req.searchTerm
+    ? places.filter((city) => city.name.toLowerCase().includes(req.searchTerm!.toLowerCase()))
+    : undefined
 
   const result: GetPlacesResponseData = {
     data: {

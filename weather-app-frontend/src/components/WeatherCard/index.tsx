@@ -8,6 +8,7 @@ import './style.scss'
 interface WeatherCardProps {
   place: Place
   inViewCallback?: () => void
+  ariaRole?: string
   testId?: string
 }
 
@@ -37,7 +38,7 @@ export const WeatherCard = (props: WeatherCardProps) => {
   }
 
   // GPT-3.5 generated function
-  const customMapping = (x: number): number => {
+  const windSpeedToVelocityMapping = (x: number): number => {
     // Define the mapping parameters
     const mappingPoints: { x: number; y: number }[] = [
       { x: 1, y: 15 },
@@ -115,7 +116,7 @@ export const WeatherCard = (props: WeatherCardProps) => {
     return {
       background: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), ${gradient}`,
       backgroundSize: '400% 400%',
-      animation: `gradientAnimation ${customMapping(weatherConditions.windSpeed ?? 1)}s ease infinite`
+      animation: `gradientAnimation ${windSpeedToVelocityMapping(weatherConditions.windSpeed ?? 1)}s ease infinite`
     }
   }
 
@@ -158,7 +159,13 @@ export const WeatherCard = (props: WeatherCardProps) => {
 
   return (
     <AnimatePresence>
-      <motion.div className="weatherCard" data-test-id={props.testId} ref={ref} style={getCardStyle()}>
+      <motion.div
+        className="weatherCard"
+        data-test-id={props.testId}
+        ref={ref}
+        style={getCardStyle()}
+        role={props.ariaRole}
+      >
         <motion.div className="infoColumn">
           <PrimaryParagraph style={{ fontWeight: '600' }}>{props.place.city}</PrimaryParagraph>
           <SecondaryParagraph>{props.place.region}</SecondaryParagraph>

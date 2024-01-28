@@ -1,6 +1,7 @@
+import { motion } from 'framer-motion'
 import styled from 'styled-components'
 
-export const PrimaryButton = styled.button`
+export const PrimaryButton = styled(motion.button)`
   font-size: 1.5rem;
   line-height: 2rem;
   font-style: normal;
@@ -26,7 +27,7 @@ export const PrimaryButton = styled.button`
   }
 `
 
-export const SecondaryButton = styled.button`
+export const SecondaryButton = styled(motion.button)`
   font-size: 1.25rem;
   line-height: 1.75rem;
   font-style: normal;
@@ -46,7 +47,7 @@ export const SecondaryButton = styled.button`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: box-shadow background color 0.2s ease-in-out;
   &:hover:enabled {
     box-shadow: var(--box-shadow-small);
   }
@@ -61,7 +62,7 @@ export const SecondaryButton = styled.button`
 `
 
 export const IconButton = styled(SecondaryButton)`
-  border-radius: 100%;
+  border-radius: 0.5rem;
   width: 2rem;
   &:hover:enabled {
     transform: scale(1.08);

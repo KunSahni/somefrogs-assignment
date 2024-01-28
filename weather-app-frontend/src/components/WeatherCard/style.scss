@@ -7,6 +7,7 @@
   padding: 0.5rem 1rem;
   justify-content: space-between;
   position: relative;
+  box-shadow: var(--box-shadow-small);
 
   background-size: 400% 400%;
   animation: gradientAnimation 15s ease infinite;
@@ -25,7 +26,7 @@
 
   @media (pointer: fine) {
     &:hover {
-      transform: scale(1.05);
+      transform: scale(1.03);
       transition: all 0.2s ease-in-out;
       box-shadow: var(--box-shadow-large);
     }

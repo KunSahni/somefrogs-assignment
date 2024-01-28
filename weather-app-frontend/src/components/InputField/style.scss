@@ -41,12 +41,7 @@
 
   &Button {
     position: absolute;
-    top: 2.5rem;
-
-    &Left {
-      @extend .inputFieldButton;
-      left: 0.5rem;
-    }
+    top: 2.45rem;
 
     &Right {
       @extend .inputFieldButton;

@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { ErrorMessage } from '../Text'
 import './style.scss'
+import { IconButton } from '../Button'
 
 interface InputFieldProps {
   label: string
@@ -54,6 +55,23 @@ export const InputField = (props: InputFieldProps) => {
               {props.error}
             </ErrorMessage>
           </motion.div>
+        )}
+        {props.value !== '' && (
+          <>
+            <span id={'description-' + props.name + '-erase-button'} className="sr-only">
+              Erase {props.label}
+            </span>
+            <IconButton
+              initial={{ transform: 'scale(0)' }}
+              animate={{ transform: 'scale(1)' }}
+              exit={{ transform: 'scale(0)' }}
+              className="inputFieldButtonRight"
+              onClick={() => props.onChange({ target: { value: '' } } as any)}
+              aria-describedby={'description-' + props.name + '-erase-button'}
+            >
+              x
+            </IconButton>
+          </>
         )}
       </motion.div>
     </AnimatePresence>

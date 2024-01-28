@@ -1,7 +1,7 @@
 import { SimpleGrid } from '@mantine/core'
 import { useEffect, useState } from 'react'
 import { InputField } from './components/InputField'
-import { PrimaryTitle } from './components/Text'
+import { PrimaryParagraph, PrimaryTitle } from './components/Text'
 import { WeatherCard } from './components/WeatherCard'
 import { Place } from './utils/types'
 import { getPlaces } from './utils/requests'
@@ -47,6 +47,7 @@ function App() {
         }}
         required={false}
         error={searchTermError}
+        desc="Enter the name of a city to get the current weather conditions."
       />
       <SimpleGrid
         cols={3}
@@ -56,6 +57,7 @@ function App() {
           { maxWidth: '84rem', cols: 2, spacing: '1.5rem', verticalSpacing: '1.5rem' },
           { maxWidth: '54rem', cols: 1, spacing: '1rem', verticalSpacing: '1rem' }
         ]}
+        role="list"
       >
         {places.map((place, index) => {
           if (index === places.length - 1)
@@ -67,11 +69,15 @@ function App() {
                   fetchPlaces(searchTerm, pageSize, currentPage + 1, false)
                   setCurrentPage((prev) => prev + 1)
                 }}
+                ariaRole="listitem"
               />
             )
-          return <WeatherCard key={index} place={place} />
+          return <WeatherCard key={index} place={place} ariaRole="listitem" />
         })}
       </SimpleGrid>
+      {places.length === 0 && searchTerm !== '' && (
+        <PrimaryParagraph style={{ width: 'fit-content', margin: 'auto' }}>No results found.</PrimaryParagraph>
+      )}
     </div>
   )
 }

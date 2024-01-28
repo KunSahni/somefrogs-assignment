@@ -2,7 +2,7 @@
   --color-textPrimary: rgba(255, 255, 255, 0.9);
   --color-textCtaPrimary: rgb(51, 51, 51);
   --color-textTitle: rgba(255, 255, 255, 1);
-  --color-textCtaSecondary: #f2af29;
+  --color-textCtaSecondary: rgba(255, 255, 255, 1);
   --color-textCtaPrimary-disabled: rgba(242, 175, 41, 0.5);
   --color-textCtaSecondary-disabled: rgba(242, 175, 41, 0.5);
 
@@ -11,9 +11,9 @@
 
   --color-backgroundPrimary: rgb(51, 51, 51);
   --color-backgroundCtaPrimary: rgb(242, 175, 41);
-  --color-backgroundCtaSecondary: rgba(242, 175, 41, 0.15);
-  --color-backgroundCtaSecondary-disabled: rgba(242, 175, 41, 0.08);
-  --color-backgroundCtaSecondary-active: rgba(242, 175, 41, 0.25);
+  --color-backgroundCtaSecondary: rgba(255, 255, 255, 0.15);
+  --color-backgroundCtaSecondary-disabled: rgba(255, 255, 255, 0.08);
+  --color-backgroundCtaSecondary-active: rgba(255, 255, 255, 0.25);
 
   --color-border: rgba(255, 255, 255, 0.12);
 

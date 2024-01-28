@@ -66,6 +66,7 @@ export const InputField = (props: InputFieldProps) => {
               animate={{ transform: 'scale(1)' }}
               exit={{ transform: 'scale(0)' }}
               className="inputFieldButtonRight"
+              data-test-id={props.testId + '-erase-button'}
               onClick={() => props.onChange({ target: { value: '' } } as any)}
               aria-describedby={'description-' + props.name + '-erase-button'}
             >

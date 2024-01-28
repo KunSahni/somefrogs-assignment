@@ -19,17 +19,17 @@ export const getWeatherData = async (place: string): Promise<GetWeatherDataRespo
   const cachedResponse = await cacheMem.get('weather' + '_' + place.toLowerCase())
   if (cachedResponse) return cachedResponse as GetWeatherDataResponseData
 
-  if (!OPEN_DATA_QUERY_URL) throw new InternalServerError('Failed to read from .env file')
+  if (!OPEN_DATA_QUERY_URL) throw new InternalServerError('Failed to read from .env file. (error: 78945612)')
 
   const endTime = new Date()
   const startTime = new Date(endTime.getTime() - 30 * 60 * 1000)
   const response = await fetch(
     `${OPEN_DATA_QUERY_URL}&place=${place}&timestep=5&starttime=${startTime.toISOString()}&endtime=${endTime.toISOString()}`
   )
-  if (response.status !== 200) throw new InternalServerError('Failed to fetch data from api')
+  if (response.status !== 200) throw new InternalServerError('Failed to fetch data from api. (error: 45612379)')
 
   const xml = await response.text()
-  if (XMLValidator.validate(xml) !== true) throw new InternalServerError('Failed to parse data received from api')
+  if (XMLValidator.validate(xml) !== true) throw new InternalServerError('Failed to parse data received from api. (error: 12378956)')
 
   const parsedXMl = new XMLParser({ ignoreAttributes: false, removeNSPrefix: true, attributeNamePrefix: '@_' }).parse(
     xml
@@ -39,7 +39,7 @@ export const getWeatherData = async (place: string): Promise<GetWeatherDataRespo
     { temperature: number | undefined; windSpeedMs: number | undefined; windDirection: number | undefined }
   >()
 
-  if (!parsedXMl['FeatureCollection']['member']) throw new BadRequestError('The place you entered was not found')
+  if (!parsedXMl['FeatureCollection']['member']) throw new BadRequestError('The place you entered was not found. (error: 56489123)')
 
   // This is a bit of a hack due to the fact that the api returns the data in GML format, which is not very easy to parse
   parsedXMl['FeatureCollection']['member']
@@ -113,7 +113,7 @@ export const getWeatherData = async (place: string): Promise<GetWeatherDataRespo
 
   const mostRecentMapEntry = timeValuesMap.get(mostRecentValidTimestamp)
   if (!mostRecentMapEntry)
-    throw new InternalServerError('Unable to retrieve recent weather data, please try again later')
+    throw new InternalServerError('Unable to retrieve recent weather data, please try again later. (error: 27875421)')
 
   const result: GetWeatherDataResponseData = {
     data: {

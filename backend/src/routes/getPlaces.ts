@@ -52,7 +52,7 @@ export const getPlaces = async (req: {
   if (cachedResponse) return cachedResponse as GetPlacesResponseData
 
   const places: Place[] | undefined = await parseCSVFile(path.resolve(__dirname, '../files/fi.csv'))
-  if (!places) throw new InternalServerError('Could not read places from csv file')
+  if (!places) throw new InternalServerError('Could not read places from csv file. (error: 98715671)')
   places.sort((a, b) => a.name.localeCompare(b.name, 'fi'))
 
   let filteredPlaces: Place[] | undefined = req.searchTerm

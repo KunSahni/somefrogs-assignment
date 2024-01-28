@@ -108,7 +108,7 @@ Here are some examples on how the request body should look like:
 
 The responses are formatted like this:
 
-```yaml
+```javascript
 // Success
 {
   "status": 200,

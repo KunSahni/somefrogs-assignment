@@ -96,13 +96,13 @@ Returns the most recent weather conditions for a given place. The parameters are
 Here are some examples on how the request body should look like:
 ```javascript
 // Valid request body
-{ 
-	"place": "Helsinki"
+{
+ "place": "Helsinki"
 }
 
 // Invalid request body
 { 
-	"place": "H"
+  "place": "H"
 }
 ```
 
@@ -111,7 +111,7 @@ The responses are formatted like this:
 ```javascript
 // Success
 {
-	"status": 200,
+ "status": 200,
 	"data": {
 		"timestamp": "2024-01-28T11:30:00Z",
 		"temperature": 2.1,
